@@ -17,7 +17,7 @@ The skill operates in one of two modes, chosen automatically:
 |---|---|---|
 | **Trigger** | `ADO_PAT` / `ADO_ORG_URL` / `ADO_PROJECT` are **not** all set | all three env vars set |
 | **Story source** | `examples/<story>/user-story.md` | `GET .../wit/workitems/{id}` |
-| **Test cases** | `examples/<story>/test-cases.csv` | `TestedBy` relations |
+| **Test cases** | `examples/<story>/test-cases.md` | `TestedBy` relations |
 | **Suite (one per story)** | n/a (cases listed in CSV) | `POST .../testplan/.../suites` |
 | **Case creation** | written to CSV / markdown | `PATCH .../wit/workitems/$Test Case` |
 | **Story state gate** | reads `state:` in `user-story.md` | reads `System.State` |

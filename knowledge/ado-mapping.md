@@ -32,7 +32,7 @@ The automation orchestrator reads `System.State`. Automation proceeds **only** w
 | | Offline (default) | Live |
 |---|---|---|
 | Story source | `examples/<story>/user-story.md` | `GET .../wit/workitems/{id}` |
-| Test cases source | `examples/<story>/test-cases.csv` | `TestedBy` relations on the story |
+| Test cases source | `examples/<story>/test-cases.md` | `TestedBy` relations on the story |
 | Suite creation | n/a (cases listed in CSV) | `POST .../testplan/plans/{id}/suites` (one per story) |
 | Case creation | written to CSV / markdown | `PATCH .../wit/workitems/$Test Case` |
 | State gate | reads `state:` in `user-story.md` | reads `System.State` |

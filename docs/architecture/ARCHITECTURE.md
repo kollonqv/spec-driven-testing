@@ -61,7 +61,7 @@ See ADR-0004.
 ## Data flow (one story, end to end)
 
 ```
-user-story.md ─▶ test-creator-agent ─▶ test-cases.csv + coverage-matrix.md
+user-story.md ─▶ test-creator-agent ─▶ test-cases.md + coverage-matrix.md
                                                        │
                                                        ▼
                                        (later sprint, story Closed)  orchestrator
@@ -78,6 +78,7 @@ user-story.md ─▶ test-creator-agent ─▶ test-cases.csv + coverage-matrix.
 2. **State gate** — orchestrator refuses to automate a non-Closed story.
 3. **SPEC review** — the automation SPEC.md is approved before any Playwright code is written.
 4. **Per-case confirmation** — each generated `test()` is shown before moving to the next.
+5. **Run & honest verdict** — the script-agent runs the tests and iterates only on *automation* problems (flaky waits, wrong selector/observation method) in a bounded loop (≤ 5 iterations). Assertions encode the **acceptance criteria**, not whatever the live app currently does — so a test that goes red because the app doesn't meet its AC is a **valid, complete outcome**: it is surfaced as a defect, never made green by weakening the test. "Done" = a faithful test that has been run, with the result reported honestly (green, or red-with-defect).
 
 ## Decisions
 

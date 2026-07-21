@@ -29,12 +29,13 @@ Fetch the story's existing test cases via the `ado-skill`. Show the operator the
 Hand off to the `test-script-agent` (invoke it as a subagent, passing the story ID). It will:
 1. investigate the live app,
 2. write `US{id}_<name>.spec.md` and **stop for SPEC review** — relay this to the operator and get approval,
-3. after approval, generate the POM + spec one test at a time.
+3. after approval, generate the POM + spec one test at a time,
+4. **run the tests and iterate** (its Step 6 bounded loop — fix *automation* issues only, surface real defects, re-run, up to 5 iterations).
 
-Surface each of the script-agent's gates to the operator; do not approve on their behalf.
+Surface each of the script-agent's gates to the operator; do not approve on their behalf. Generation is **not complete until the tests have been run and the result honestly reported** — where "the result" is green **or** a red test reflecting a real product defect. A red test caused by a genuine defect is a valid, complete outcome, never something to make green by weakening the test.
 
-### Gate 4 — Run
-Run `npx playwright test src/tests/<feature>/` and report results (pass/fail, HTML report path). On failure, surface the error and ask how to proceed — do not auto-fix silently.
+### Gate 4 — Confirm the run & verdict
+Report the final result (pass counts, HTML report path) and the iteration log. The verdict is one of: **all green**, a **red-with-defect** (app doesn't meet an AC → surface expected-vs-actual with evidence; ask: log a defect or amend the AC), or **inconclusive after 5 iterations** (hand back the diagnosis). Do **not** weaken tests to force green, and do **not** report success for a red-with-defect — report it truthfully as a defect finding.
 
 ### Gate 5 — Publish (optional, live only)
 If the operator asks and mode is live, publish the run results back to ADO as a test run. Skip in offline mode.
@@ -46,11 +47,12 @@ US200 automation complete (offline)
   Gate 1 state=Closed ✓
   Gate 2 5 test cases pulled ✓
   Gate 3 SPEC approved ✓ → POM + spec generated ✓
-  Gate 4 npx playwright test → 5 passed
+  Gate 4 run & iterate → 5 passed (iter 1: 4 pass/1 flaky→retry pass)
 ```
 
 ## Guarantees
 - **Never** automates a story that isn't Closed/Done/Resolved (Gate 1).
 - **Never** one-shot: every gate waits for a human.
 - **Never** writes Playwright code before the SPEC.md is approved (enforced by the script-agent).
+- **Never** reports "done" until the tests have been **run** and the result **honestly reported** (green, or red-with-defect). Green is not the completion criterion — a faithful test with a truthful verdict is. A genuine product defect is surfaced as a red test, never hidden by weakening/skipping the check.
 - Follows all `ado-skill` safety rules; offline by default.

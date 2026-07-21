@@ -27,7 +27,7 @@ Story `US200` — *Reinvention Services top navigation bar* — is in refinement
 ```
 Use the test-creator-agent for US200
 ```
-It pulls the story + ACs into context and generates 5 test cases with observable steps, each tracing to an AC, plus the coverage matrix. **Pause at the review gate** — walk through `test-cases.csv` and `coverage-matrix.md`; show every AC is covered and every step has an expected. *(Live: it would push each case into the story's Test Suite, one at a time with confirmation.)*
+It pulls the story + ACs into context and generates 5 test cases with observable steps, each tracing to an AC, plus the coverage matrix. **Pause at the review gate** — walk through `test-cases.md` (one steps table per case) and `coverage-matrix.md`; show every AC is covered and every step has an expected. *(Live: it would push each case into the story's Test Suite, one at a time with confirmation.)*
 
 > **Talking point:** point at the coverage matrix. "Every acceptance criterion has at least one test; the security/validation-sensitive ones get negatives and edges. This is governance you can audit."
 
