@@ -47,7 +47,44 @@ Apply `knowledge/testing-standards.md` exactly:
 **Narrate the derivation per AC** so the reasoning is visible — state, for each AC, how many cases and of which types, and why (grounded in the standards + domain rules). Keep it concise.
 
 ### Step 3 — Write the artifact (REQUIRED)
-Write `examples/<story>/test-cases.md` now — this is the review surface. Format: **one section per test case** with a metadata line (`TC-id · ADO id · AC · type · priority`), the title, and a **steps table** (`# | Action | Expected`), one row per step. Also write/refresh `coverage-matrix.md` (AC → cases + the four rubric scores). Report the paths and a short narrated summary, and tell the operator to review `test-cases.md`. See `examples/reinvention-services-nav/` for the exact shape.
+Write `examples/<story>/test-cases.md` and `coverage-matrix.md` now — this is the review surface. The format below is **authoritative** (don't rely on any existing example file; the worked example's artifacts are git-ignored and may be absent on a fresh clone). Use `###` headings and this exact shape:
+
+**`test-cases.md`:**
+```markdown
+# US{id} — Test Cases: {story title}
+
+> Design-phase output. One section per test case; every step has an observable expected.
+
+### TC-001 · ADO {workItemId | "n/a (offline)"} · AC-1 · positive · high
+**{verb-first title, ≤ 80 chars}**
+
+| # | Action | Expected |
+|---|--------|----------|
+| 1 | {action} | {observable expected} |
+| 2 | … | … |
+
+### TC-002 · ADO … · AC-1 · edge · medium
+…
+```
+
+**`coverage-matrix.md`:**
+```markdown
+# Coverage Matrix — US{id}
+
+| AC | Covered by | Status |
+|----|-----------|--------|
+| AC-1 | TC-001, TC-002 | ✅ covered |
+
+| Rubric criterion | Score |
+|------------------|:----:|
+| AC coverage | 5 |
+| Type distribution | 5 |
+| Determinism | 5 |
+| Traceability | 5 |
+| **Overall** | **5.0** |
+```
+
+Report the paths and a short narrated summary, and tell the operator to review `test-cases.md`.
 
 ### Step 4 — Review & iterate on the artifact (GATE)
 The operator reviews `test-cases.md`. On any feedback (add/remove/reword a case or step; change a type/priority; add a missing scenario), **edit the file** and re-present a short summary of what changed. Repeat until the operator approves. Gate to pass before pushing: rubric overall ≥ 4.0, no empty coverage rows, no vague expecteds, every case traces to an AC.
