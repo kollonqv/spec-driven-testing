@@ -5,9 +5,9 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   // One local retry absorbs transient live-site load hiccups; more in CI.
-  retries: process.env.CI ? 2 : 1,
-  workers: process.env.CI ? 1 : undefined,
-  reporter: [['html'], ['list']],
+  retries: process.env.CI ? 0 : 0,
+  workers: process.env.CI ? 1 : 1,
+  reporter: [['html', { open: 'never' }], ['list']],
   // The worked example runs against a heavy live site; allow headroom for load.
   timeout: 60_000,
   expect: { timeout: 10_000 },

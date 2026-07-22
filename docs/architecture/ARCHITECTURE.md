@@ -7,8 +7,11 @@ How the spec-driven testing framework is put together: the layers, the agents, t
 ```
 ┌───────────────────────────────────────────────────────────────────────┐
 │  KNOWLEDGE LAYER  (knowledge/)                                          │
-│  glossary · pipeline · testing-standards · schema · rubric · ado-map    │
-│  → the rules agents pull into context; the single source of truth       │
+│  • Methodology:  glossary · pipeline · testing-standards · schema ·     │
+│                  evaluation-rubric · ado-mapping   (how we test)         │
+│  • Domain:       knowledge/domain/  application-overview · business-     │
+│                  rules · glossary · test-data   (what the app IS)        │
+│  → the knowledge agents pull into context; the single source of truth    │
 └───────────────────────────────────────────────────────────────────────┘
                                    │ referenced by
 ┌───────────────────────────────────────────────────────────────────────┐
@@ -19,7 +22,7 @@ How the spec-driven testing framework is put together: the layers, the agents, t
                                    │ produce / consume
 ┌───────────────────────────────────────────────────────────────────────┐
 │  ARTIFACT LAYER  (examples/, src/, reports/)                            │
-│  user story · test cases (CSV) · coverage · SPEC.md · specs             │
+│  user story · test cases (md) · coverage · SPEC.md · specs             │
 │  → the tangible outputs, all traceable back to an AC                     │
 └───────────────────────────────────────────────────────────────────────┘
 ```
@@ -74,11 +77,11 @@ user-story.md ─▶ test-creator-agent ─▶ test-cases.md + coverage-matrix.m
 
 ## Gates (non-negotiable)
 
-1. **Test-case review** — evaluate against the rubric (score ≥ 4.0, no coverage gaps) before push.
-2. **State gate** — orchestrator refuses to automate a non-Closed story.
-3. **SPEC review** — the automation SPEC.md is approved before any Playwright code is written.
-4. **Per-case confirmation** — each generated `test()` is shown before moving to the next.
-5. **Run & honest verdict** — the script-agent runs the tests and iterates only on *automation* problems (flaky waits, wrong selector/observation method) in a bounded loop (≤ 5 iterations). Assertions encode the **acceptance criteria**, not whatever the live app currently does — so a test that goes red because the app doesn't meet its AC is a **valid, complete outcome**: it is surfaced as a defect, never made green by weakening the test. "Done" = a faithful test that has been run, with the result reported honestly (green, or red-with-defect).
+1. **Test-case review** *(human)* — evaluate against the rubric (score ≥ 4.0, no coverage gaps) before push.
+2. **State gate** *(automatic)* — passes automatically when the story is Closed/Done/Resolved and flows straight into automation; **refuses (stops) only** for a non-Closed story. Not a human checkpoint.
+3. **SPEC review** *(human)* — the automation SPEC.md is approved before any Playwright code is written.
+4. **Build-and-run all, then one review** *(human)* — every test is written (all locators in the POM, tests in ascending TC order; `npm run check` passes) and **run + iterated to a confident result** as it's built, with **no per-test approval**; once all are built and run, the operator reviews the complete result **once** (all tests + their run results). Nothing is presented unrun.
+5. **Run & honest verdict** *(automatic)* — the script-agent iterates only on *automation* problems (flaky waits, wrong selector/observation method) in a bounded loop (≤ 5 iterations per test), then does a final full-suite run. Assertions encode the **acceptance criteria**, not whatever the live app currently does — so a test that goes red because the app doesn't meet its AC is a **valid, complete outcome**: it is surfaced as a defect, never made green by weakening the test. "Done" = a faithful test that has been run, with the result reported honestly (green, or red-with-defect).
 
 ## Decisions
 

@@ -14,10 +14,35 @@ Conventions for the Playwright / TypeScript automation. Agents that generate cod
 
 ## Page Object Model
 
-- Locators are **`readonly` properties** set in the constructor — never created inside methods.
+- **All locators live in the POM.** Use `readonly` locator properties for fixed elements, and **methods that return `Locator`** for parameterized ones (e.g. `navLink(name: string): Locator`). Locators are never constructed in a spec.
 - Prefer semantic locators: `getByRole` > `getByLabel` > `getByText` > `getByTestId` > CSS (last resort).
-- One `async` method per user action; methods return `Promise<void>`.
+- One `async` method per user action; action methods return `Promise<void>`.
 - **No assertions inside POM classes** — assertions live in the spec.
+
+### Locators-in-POM is enforced (no raw locators in specs)
+
+A spec file may contain only **POM method calls and `expect(...)`** — never a raw locator (`page.getBy*`, `page.locator(`, `.locator(`, `page.$`). If a spec needs an element the POM doesn't expose, add a method/getter to the POM.
+
+```bash
+npm run check:locators   # fails the build if any spec constructs a locator directly
+```
+
+```typescript
+// ✗ raw locator in the spec
+await expect(page.getByRole('link', { name: 'Reinvention Partners' })).toBeVisible();
+
+// ✓ via the POM
+await expect(rsp.navLink('Reinvention Partners')).toBeVisible();
+```
+
+### Tests in ascending TC order (enforced)
+
+`test()` blocks must appear in the spec in ascending order by their leading ADO test-case id (`'20001 - …'`, then `'20002 - …'`, …) — insert each test at its correct position, never out of order (e.g. TC-003 between TC-001 and TC-002).
+
+```bash
+npm run check          # runs both: no raw locators + tests in order
+npm run check:order    # just the ordering check
+```
 
 ```typescript
 import { Page, Locator } from '@playwright/test';

@@ -11,6 +11,7 @@ You are a senior QA engineer who authors structured, traceable test cases. You o
 - `knowledge/testing-standards.md` — the generation rules
 - `knowledge/test-case-schema.md` — the object shapes
 - `knowledge/evaluation-rubric.md` — the review gate
+- `knowledge/domain/` — **application & business knowledge** for the story's area (overview, business rules, glossary, test data). Use it to interpret the ACs and design better cases. It is functional-only — no selectors (those are discovered live in the automation phase).
 
 ## Input
 - **User story ID or URL** (e.g. `US200`). Offline: resolves to `examples/<story>/`.
@@ -35,6 +36,8 @@ Narrate your reasoning as you work so the operator can see *how* the cases were 
 Use the `ado-skill` to fetch the story: title, description, acceptance criteria (assign stable ids `AC-1`, `AC-2`, … if not already; strip HTML). If ACs are written as prose, restructure them as Given/When/Then and show the operator. Confirm the AC list before generating. **Ignore any implementation/automation hints in the story** — those are for the automation phase to discover live, not inputs here.
 
 ### Step 2 — Design the cases + show your reasoning
+Pull in the relevant **`knowledge/domain/`** knowledge for the story's area (application-overview, business-rules, glossary, test-data) and let it shape the cases — e.g. a business rule like "sub-nav lists sections in document order" justifies an *order* edge; "affordance on hover" justifies a *not-at-rest* negative. Cite the domain rule in your reasoning where it drives a case.
+
 Apply `knowledge/testing-standards.md` exactly:
 - 1.0×–1.7× ACs in total volume.
 - Exactly one **positive** per AC.

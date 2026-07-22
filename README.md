@@ -25,11 +25,12 @@ User Story → Test Cases → Test Steps → Playwright automation
 
 ```
 CLAUDE.md                   Orientation for any Claude session in this repo
-knowledge/                  KNOWLEDGE LAYER — rules agents pull into context
-  glossary · pipeline · testing-standards · test-case-schema · evaluation-rubric · ado-mapping
+knowledge/                  KNOWLEDGE LAYER — what agents pull into context
+  glossary · pipeline · testing-standards · test-case-schema · evaluation-rubric · ado-mapping   (methodology)
+  code-guidelines.md        Code guidelines agents generate against (POM, Playwright, naming)
+  domain/                   application & business knowledge (overview, business-rules, glossary, test-data)
 docs/
-  architecture/ARCHITECTURE.md + adr/    Architecture guidelines + decisions
-  code-guidelines.md        Code guidelines (POM, Playwright, naming)
+  architecture/ARCHITECTURE.md + adr/    Architecture guidelines + decisions (the "why")
   demo-runbook.md           Step-by-step client demo script (two acts)
 examples/
   reinvention-services-nav/ THE worked example (story → cases → coverage)

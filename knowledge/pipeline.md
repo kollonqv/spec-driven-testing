@@ -42,8 +42,8 @@ Steps:
 1. **State gate.** The orchestrator reads the story state. If it is not Closed/Done, it **refuses** to automate (avoids automating an unstable story).
 2. **Pull cases.** Fetch the story's existing, reviewed test cases from ADO.
 3. **SPEC before code.** `test-script-agent` runs a spec-driven flow: it investigates the live target app, then writes a per-story `SPEC.md` beside the test, and **stops for review**.
-4. **Automate.** After the SPEC is approved, it generates the Playwright test one case at a time.
-5. **Run & iterate (honest verdict).** It runs the tests and, on failure, diagnoses: *automation* problems (flaky/selector/observation) are fixed and re-run in a bounded loop; a genuine **product defect** leaves the test **red** and is surfaced (never hidden by weakening the test). Assertions encode the ACs, not the app's current behaviour. Optionally publish results back to ADO.
+4. **Automate — build & run all, then one review.** After the SPEC is approved, it writes each test (all locators in the POM) and **runs + iterates each to a confident result as it goes**, without stopping between tests. Once all are built and run, it does a final full-suite run and presents the **complete result for a single review** — nothing is presented unrun, but the operator approves once, not per test.
+5. **Run & iterate (honest verdict).** Within each test's loop it diagnoses failures: *automation* problems (flaky/selector/observation) are fixed and re-run in a bounded loop; a genuine **product defect** leaves the test **red** and is surfaced (never hidden by weakening the test). Assertions encode the ACs, not the app's current behaviour. Optionally publish results back to ADO.
 
 ## Why the split matters
 

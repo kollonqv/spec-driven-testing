@@ -6,7 +6,10 @@
     "test": "playwright test",
     "test:headed": "playwright test --headed",
     "test:debug": "playwright test --debug",
-    "test:report": "playwright show-report"
+    "test:report": "playwright show-report",
+    "check:locators": "node scripts/check-no-raw-locators.mjs",
+    "check:order": "node scripts/check-spec-order.mjs",
+    "check": "npm run check:locators && npm run check:order"
   },
   "devDependencies": {
     "@playwright/test": "^1.45.0",

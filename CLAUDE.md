@@ -14,14 +14,19 @@ User Story → Test Cases → Test Steps → Playwright automation
 
 ## Read these first (the knowledge layer)
 
-Agents pull rules from `knowledge/` — treat it as the source of truth:
+Agents pull from `knowledge/` — treat it as the source of truth. It has two parts:
 
+**Methodology** (how we test):
 - `knowledge/glossary.md` — vocabulary
 - `knowledge/pipeline.md` — the two-phase flow (design in-sprint, automation Sprint+N)
 - `knowledge/testing-standards.md` — how test cases are generated
 - `knowledge/test-case-schema.md` — the data model
 - `knowledge/evaluation-rubric.md` — the review gate
 - `knowledge/ado-mapping.md` — model → ADO, offline vs live
+
+**Domain** (what the app under test is) — `knowledge/domain/`:
+- `application-overview.md`, `business-rules.md`, `glossary.md`, `test-data-and-environments.md`
+- Functional-only (no selectors — discovered live). Feeds design (smarter ACs/edges) + automation (test data). See `knowledge/domain/README.md`.
 
 ## Agents (`.claude/`)
 
@@ -40,7 +45,7 @@ No ADO credentials are used right now. Agents read the worked example from `exam
 
 ## Code conventions
 
-Full rules in `docs/code-guidelines.md`. Highlights:
+Full rules in `knowledge/code-guidelines.md`. Highlights:
 - Spec: `US{id}_{camelCaseStory}.spec.ts`; SPEC beside it: `…​.spec.md`
 - Test name: `'{adoTcId} - AC{n} - <condition>'`
 - POM: `readonly` locators in constructor, no assertions in POM, semantic locators first

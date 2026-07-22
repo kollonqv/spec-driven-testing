@@ -45,14 +45,14 @@ Use the test-automation-orchestrator-agent for US200
 ```
 
 Watch it:
-1. **State gate.** It checks the story is Closed. *(Optional wow: first point it at an in-progress story and show it refuse.)*
-2. **Pull cases.** It loads the 5 existing test cases.
-3. **SPEC before code.** `test-script-agent` opens the **live** Accenture page and discovers the ground truth — the nav selectors, the click-to-scroll section targets (and that the URL hash does *not* change), and the hover-underline mechanism (`::after` bar) — then writes `src/tests/reinventionServices/US200_reinventionServicesNav.spec.md`. **Pause at the SPEC review gate.**
+1. **State gate (automatic).** It confirms the story is Closed and **proceeds automatically** — no stop. *(Optional wow: first point it at an in-progress story and show it refuse.)*
+2. **Pull cases (automatic).** It loads the 5 existing test cases and continues.
+3. **SPEC before code.** `test-script-agent` opens the **live** Accenture page and discovers the ground truth — the nav selectors, the click-to-scroll section targets (and that the URL hash does *not* change), and the hover-underline mechanism (`::after` bar) — then writes `src/tests/reinventionServices/US200_reinventionServicesNav.spec.md`. **First human gate: SPEC review.**
 
-> **Talking point:** "It didn't guess. It inspected the live app first, wrote the automation spec, and is waiting for sign-off before writing a line of test code. Spec-driven, applied to the tests themselves."
+> **Talking point:** "It didn't stop to ask permission for the mechanical check — a Closed story just flows into automation. It inspected the live app first, wrote the automation spec, and is waiting for sign-off before writing a line of test code."
 
-4. **Generate.** After approval, it writes the POM and the spec — one `test()` at a time, each shown for confirmation.
-5. **Run:**
+4. **Build & run all, then one review.** After SPEC approval, it writes each test and **runs + iterates each to a confident result as it goes** (no stops between tests), then does a final full-suite run and presents the **complete result — all tests + their run results — for a single approval.**
+5. **Final run:**
 ```bash
 npx playwright test src/tests/reinventionServices/
 npx playwright show-report

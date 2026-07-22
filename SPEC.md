@@ -31,7 +31,7 @@ npx playwright show-report                      # HTML report
 CLAUDE.md            orientation
 knowledge/           knowledge layer (glossary, pipeline, standards, schema, rubric, ado-mapping)
 docs/architecture/   ARCHITECTURE.md + ADRs
-docs/code-guidelines.md · docs/demo-runbook.md
+knowledge/code-guidelines.md · docs/demo-runbook.md
 examples/reinvention-services-nav/   worked-example artifacts
 src/pages/ · src/tests/<feature>/    POM + specs (US{id}_{name}.spec.ts + .spec.md)
 .claude/skills/ado-skill · .claude/agents/*   the agent layer
@@ -40,7 +40,7 @@ scripts/             ado-fetch-example.ps1, ado-seed-example.ps1
 
 ## Code Style
 
-See `docs/code-guidelines.md`. POM with `readonly` locators in the constructor, semantic locators first, no assertions in POM; test names `'{adoTcId} - AC{n} - <condition>'`; web-first assertions; no `waitForTimeout`.
+See `knowledge/code-guidelines.md`. POM with `readonly` locators (or `Locator`-returning methods), semantic locators first, no assertions in POM; test names `'{adoTcId} - AC{n} - <condition>'`; web-first assertions; no `waitForTimeout`.
 
 ## Testing Strategy
 
