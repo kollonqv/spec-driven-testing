@@ -8,7 +8,8 @@ How the spec-driven testing framework is put together: the layers, the agents, t
 ┌───────────────────────────────────────────────────────────────────────┐
 │  KNOWLEDGE LAYER  (knowledge/)                                          │
 │  • Methodology:  glossary · pipeline · testing-standards · schema ·     │
-│                  evaluation-rubric · ado-mapping   (how we test)         │
+│                  evaluation-rubric · ado-mapping · code-guidelines       │
+│                  (how we test + how we write the code)                   │
 │  • Domain:       knowledge/domain/  application-overview · business-     │
 │                  rules · glossary · test-data   (what the app IS)        │
 │  → the knowledge agents pull into context; the single source of truth    │
@@ -89,5 +90,8 @@ user-story.md ─▶ test-creator-agent ─▶ test-cases.md + coverage-matrix.m
 - ADR-0002 — Test Scenario = ADO Test Suite *(superseded by ADR-0006)*
 - ADR-0003 — One spec file per user story
 - ADR-0004 — Offline and live modes
-- ADR-0005 — Design vs automation sprint split (Closed-only gate)
+- ADR-0005 — Design vs automation sprint split (Closed-only gate; the gate auto-passes)
 - ADR-0006 — Flat test cases (one suite per story); single design agent
+- ADR-0007 — Grounding in truth (honest verdicts, no defect-hiding)
+- ADR-0008 — Domain knowledge layer (functional-only)
+- ADR-0009 — Automation authoring workflow (spec-first, run-before-review, single review)

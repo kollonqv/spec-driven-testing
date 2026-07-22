@@ -19,3 +19,4 @@ Split the pipeline into two workflows:
 - The Closed-only **state gate** is enforced in code (reads `System.State` live, or `state:` in `user-story.md` offline).
 - The gate doubles as a compelling demo beat: run it on an in-progress story and it stops; run it on the Closed story and it flies.
 - The "wow"/orchestration lands on the automation side; design stays deliberately human-driven.
+- **Refinement:** the state gate is an *automatic* quality gate — on a Closed/Done/Resolved story it passes and proceeds without stopping (it is not a human checkpoint); it stops only to **refuse** a non-Closed story. The human gates are the SPEC review and the single end-of-phase review (ADR-0009).
