@@ -84,4 +84,4 @@ export class LoginPage {
 
 Every `test()` name begins with the ADO test case ID so CI results link back to ADO. The `describe` title carries the user story ID. A header comment lists the ACs.
 
-See also: `knowledge/testing-standards.md`, `CLAUDE.md`.
+See also: `knowledge/testing-standards.md`, `AGENTS.md`.

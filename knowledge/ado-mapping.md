@@ -44,4 +44,4 @@ Agents pick the mode from whether `ADO_PAT` / `ADO_ORG_URL` / `ADO_PROJECT` are 
 
 Azure **Test Plans** (suites/runner) is a paid access level ("Basic + Test Plans"), separate from free Basic. Creating Test Case *work items* works on Basic; organizing them into a **Suite** needs a Test Plans license (free trial available). If unavailable, the fallback is to skip the suite and link the cases to the story via `TestedBy` only (free Basic), optionally tagging them for grouping. Offline mode sidesteps this entirely.
 
-See also: `.claude/skills/ado-skill/SKILL.md`, [test-case-schema.md](test-case-schema.md).
+See also: `agents/ado-skill.md`, [test-case-schema.md](test-case-schema.md).

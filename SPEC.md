@@ -28,14 +28,14 @@ npx playwright show-report                      # HTML report
 ## Project Structure
 
 ```
-CLAUDE.md            orientation
-knowledge/           knowledge layer (glossary, pipeline, standards, schema, rubric, ado-mapping)
-docs/architecture/   ARCHITECTURE.md + ADRs
-knowledge/code-guidelines.md · docs/demo-runbook.md
+AGENTS.md            canonical tool-neutral orientation
+agents/*             neutral agent defs (ado-skill, test-creator, test-script, orchestrator)
+knowledge/           knowledge layer (glossary, pipeline, standards, schema, rubric, ado-mapping, code-guidelines, domain/)
+docs/architecture/   ARCHITECTURE.md + ADRs · docs/demo-runbook.md
 examples/reinvention-services-nav/   worked-example artifacts
 src/pages/ · src/tests/<feature>/    POM + specs (US{id}_{name}.spec.ts + .spec.md)
-.claude/skills/ado-skill · .claude/agents/*   the agent layer
-scripts/             ado-fetch-example.ps1, ado-seed-example.ps1
+scripts/             ado-fetch-example.ps1, ado-seed-example.ps1, check-*.mjs
+thin adapters:       CLAUDE.md · .claude/  |  GEMINI.md · .gemini/  |  .github/ (Copilot)
 ```
 
 ## Code Style

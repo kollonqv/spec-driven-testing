@@ -1,12 +1,12 @@
 # Example Automation Framework — Playwright / TypeScript
 
-A demoable, **spec-driven** E2E test automation framework using Playwright and TypeScript, driven by Claude agents and integrated (offline for now) with Azure DevOps. It takes a user story all the way to running automation, with every artifact traceable to an acceptance criterion:
+A demoable, **spec-driven** E2E test automation framework using Playwright and TypeScript, driven by AI agents and integrated (offline for now) with Azure DevOps. It's **platform-agnostic** — the same agents run under **Claude Code**, **Gemini CLI**, or **GitHub Copilot CLI**. It takes a user story all the way to running automation, with every artifact traceable to an acceptance criterion:
 
 ```
 User Story → Test Cases → Test Steps → Playwright automation
 ```
 
-**New here?** Start with [`CLAUDE.md`](CLAUDE.md) (orientation), then [`knowledge/pipeline.md`](knowledge/pipeline.md) (the flow), [`docs/architecture/ARCHITECTURE.md`](docs/architecture/ARCHITECTURE.md) (how it fits), and [`docs/demo-runbook.md`](docs/demo-runbook.md) (how to demo it).
+**New here?** Start with [`AGENTS.md`](AGENTS.md) (canonical, tool-neutral orientation), then [`knowledge/pipeline.md`](knowledge/pipeline.md) (the flow), [`agents/README.md`](agents/README.md) (how the agents are shared across tools), and [`docs/demo-runbook.md`](docs/demo-runbook.md) (how to demo it).
 
 ---
 
@@ -24,7 +24,9 @@ User Story → Test Cases → Test Steps → Playwright automation
 ## Project Structure
 
 ```
-CLAUDE.md                   Orientation for any Claude session in this repo
+AGENTS.md                   CANONICAL, tool-neutral project context (read first)
+agents/                     SINGLE SOURCE OF TRUTH for agent behaviour (platform-neutral)
+  ado-skill.md · test-creator.md · test-script.md · test-automation-orchestrator.md · README.md
 knowledge/                  KNOWLEDGE LAYER — what agents pull into context
   glossary · pipeline · testing-standards · test-case-schema · evaluation-rubric · ado-mapping   (methodology)
   code-guidelines.md        Code guidelines agents generate against (POM, Playwright, naming)
@@ -32,25 +34,17 @@ knowledge/                  KNOWLEDGE LAYER — what agents pull into context
 docs/
   architecture/ARCHITECTURE.md + adr/    Architecture guidelines + decisions (the "why")
   demo-runbook.md           Step-by-step client demo script (two acts)
-examples/
-  reinvention-services-nav/ THE worked example (story → cases → coverage)
-src/
-  pages/                    Page Object Model classes
-  tests/
-    <feature>/
-      US{id}_{name}.spec.ts   one spec file per user story
-      US{id}_{name}.spec.md   its automation SPEC (written before the code)
-.claude/
-  skills/ado-skill/SKILL.md ADO REST skill — offline/live modes, no deletes
-  agents/
-    test-creator-agent.md                US + ACs → test cases → ADO (design)
-    test-script-agent.md                 test cases → SPEC.md → Playwright (automation)
-    test-automation-orchestrator-agent.md  Closed-story gate → drives automation
-scripts/
-  ado-fetch-example.ps1     Fetch/read helper (live)
-  ado-seed-example.ps1      Seed the worked-example story into a live org (live)
+examples/reinvention-services-nav/   THE worked example (story → cases → coverage)
+src/pages/ · src/tests/<feature>/    POM classes · specs (US{id}_{name}.spec.ts + .spec.md)
+scripts/                    ado-fetch-example.ps1 · ado-seed-example.ps1 · check-*.mjs (guards)
 playwright.config.ts · tsconfig.json · package.json
-.github/                    GitHub Copilot mirror (earlier iteration; out of scope)
+
+--- thin per-tool adapters (all point to agents/ + AGENTS.md) ---
+CLAUDE.md                   Claude context → AGENTS.md
+.claude/agents/*.md · .claude/skills/ado-skill/SKILL.md   Claude wrappers → agents/
+GEMINI.md                   Gemini context → AGENTS.md
+.gemini/commands/*.toml     Gemini slash-commands → agents/
+.github/copilot-instructions.md · prompts/ · instructions/   Copilot wrappers → agents/
 ```
 
 ---
@@ -206,26 +200,24 @@ test.describe('US{id} - Story title', () => {
 The pipeline is split into two phases across sprints (see [`knowledge/pipeline.md`](knowledge/pipeline.md) and ADR-0005): test **design** happens in-sprint (manual), automation happens later (orchestrated) and **only for Closed stories**, to avoid rework.
 
 ### Phase A — Test Design (in-sprint, manual)
-
-One agent pulls the story + ACs and generates the test cases with you, then pushes them to the story's ADO Test Suite:
-
-```
-Use the test-creator-agent for US200
-```
+One agent pulls the story + ACs, generates the test cases with you (into `test-cases.md`), then pushes them to the story's ADO Test Suite.
 
 ### Phase B — Test Automation (Sprint + N, orchestrated)
+One entry point; the Closed-story gate auto-passes (refuses a non-Closed story), then it drives the spec-driven automation — investigate live → `SPEC.md` → build & run every test → **single end-of-phase review**.
 
-One entry point; it refuses to automate a story that isn't Closed, then drives the spec-driven automation:
+### How you invoke them (same agents, three tools)
 
-```
-Use the test-automation-orchestrator-agent for US200
-```
+| Tool | Design phase | Automation phase |
+|------|--------------|------------------|
+| **Claude Code** | `Use the test-creator-agent for US200` | `Use the test-automation-orchestrator-agent for US200` |
+| **Gemini CLI** | `/test-creator US200` | `/test-automation-orchestrator US200` |
+| **GitHub Copilot CLI** | `Act as the test-creator agent for US200` (or the `test-creator` prompt) | `Act as the test-automation-orchestrator for US200` |
 
-The orchestrator gates on story state, pulls the existing test cases, then hands to the `test-script-agent`, which **investigates the live app, writes `US{id}_{name}.spec.md`, waits for approval, and only then generates the Playwright test** — one case at a time.
+All three follow the **same** definitions in `agents/` — see [`agents/README.md`](agents/README.md).
 
 ### Supporting pieces
 
-- **`ado-skill`** (`.claude/skills/ado-skill/`) — safe ADO REST access; offline/live modes; no deletes; bulk = one-by-one with confirmation.
+- **`agents/ado-skill.md`** — safe ADO REST access; offline/live modes; no deletes; bulk = one-by-one with confirmation.
 - **`scripts/ado-fetch-example.ps1`** — standalone fetch/verify helper (live). Operations: `FetchWorkItem`, `FetchTestCases`, `ExportCsv`, `ListPlans`, `ListSuites`.
 - **`scripts/ado-seed-example.ps1`** — seeds the worked-example story into a live org so the demo is reproducible.
 

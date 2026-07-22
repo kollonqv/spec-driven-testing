@@ -16,8 +16,9 @@ How the spec-driven testing framework is put together: the layers, the agents, t
 └───────────────────────────────────────────────────────────────────────┘
                                    │ referenced by
 ┌───────────────────────────────────────────────────────────────────────┐
-│  AGENT LAYER  (.claude/agents, .claude/skills)                          │
-│  ado-skill · creator-agent · script-agent · orchestrator-agent          │
+│  AGENT LAYER  (agents/ — neutral defs; adapters: .claude · .gemini ·    │
+│               .github)                                                   │
+│  ado-skill · test-creator · test-script · test-automation-orchestrator  │
 │  → the workers; each phase is an agent, all compose over the ado-skill   │
 └───────────────────────────────────────────────────────────────────────┘
                                    │ produce / consume
