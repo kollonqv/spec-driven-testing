@@ -36,8 +36,3 @@ As a visitor to the Reinvention Services page, I want a persistent top navigatio
 - **Given** I am on the Reinvention Services page
 - **When** I hover the pointer over any top-nav item
 - **Then** that item's text becomes underlined (and is **not** underlined by default)
-
-## Notes for automation
-- **AC-2 (click-to-scroll + header):** each nav item is an anchor to a section `<div id="block-…">` whose heading is an `<h2>` with the expected text. Clicking scrolls the section into view (top ~52px under the sticky sub-nav). The **URL hash does not change** (JS smooth scroll) — assert on section-in-viewport + the header text, not the URL. Section ids: `block-reinvention-partners`, `block-reinvention-engines`, `block-client-success`, `block-we-bring-deep-industry-expertise`, `block-carousel-we-make-reinvention-real`.
-- **AC-3 (hover underline):** the underline is an animated `::after` bar on the label span (width 0 → text width); not `text-decoration`/`border-bottom`. Captured on the live page.
-- Prefer role/text locators (`getByRole('link', { name })`) for resilience against class churn on the live site.
