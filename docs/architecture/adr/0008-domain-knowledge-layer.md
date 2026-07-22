@@ -12,7 +12,7 @@ Add **`knowledge/domain/`** — curated *functional/business* knowledge about th
 
 **Boundary (non-negotiable):** functional/business content only — **no selectors, DOM, CSS, element ids, or pixel/computed values.** Those are discovered live during the automation phase.
 
-- `test-creator-agent` (design) reads it to interpret ACs and design better cases (e.g. a business rule "sub-nav lists sections in document order" justifies an order edge).
+- `test-creator-agent` (design) reads it to interpret ACs in context and design better cases; a business rule can justify an additional edge or negative.
 - `test-script-agent` (automation) reads it for **test data / environment only**; selectors still come from live investigation.
 
 ## Consequences

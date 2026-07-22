@@ -49,6 +49,6 @@ If you cannot state an observable expected, the step is wrong — split it or re
 
 ## Worked reference
 
-For the Reinvention Services nav story (3 ACs → 5 cases), see `examples/reinvention-services-nav/`. Note how AC-1 (a display AC) gets a positive **and** an order edge case, while AC-3 gets a positive **and** a "not underlined by default" negative to prove the hover is the cause.
+For a fully worked example (user story → test cases → coverage matrix), see `examples/reinvention-services-nav/`.
 
 See also: [test-case-schema.md](test-case-schema.md), [evaluation-rubric.md](evaluation-rubric.md).

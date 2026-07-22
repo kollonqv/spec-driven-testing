@@ -241,7 +241,7 @@ npx playwright test src/tests/reinventionServices/ --workers=1
 
 Artifacts: [`examples/reinvention-services-nav/`](examples/reinvention-services-nav/) (story, cases, coverage) and the automation SPEC at [`src/tests/reinventionServices/US200_reinventionServicesNav.spec.md`](src/tests/reinventionServices/US200_reinventionServicesNav.spec.md).
 
-> **Investigation-driven accuracy:** the ACs were verified against the live page before writing assertions. AC-2 (click a nav item → the page scrolls its section to just below the sticky sub-nav; the URL hash does not change) and AC-3 (hover animates an `::after` underline) reflect the page's *actual* behaviour, captured with the Playwright CLI — not assumptions.
+> **Investigation-driven accuracy:** ACs are verified against the live page before any assertions are written — selectors and interaction mechanics are **discovered live** by the automation agent, not assumed. That's what keeps the generated tests honest (and the domain/knowledge layer deliberately holds no selectors, so nothing is pre-fed).
 
 ---
 

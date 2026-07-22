@@ -36,7 +36,7 @@ Narrate your reasoning as you work so the operator can see *how* the cases were 
 Use the `ado-skill` to fetch the story: title, description, acceptance criteria (assign stable ids `AC-1`, `AC-2`, … if not already; strip HTML). If ACs are written as prose, restructure them as Given/When/Then and show the operator. Confirm the AC list before generating. **Ignore any implementation/automation hints in the story** — those are for the automation phase to discover live, not inputs here.
 
 ### Step 2 — Design the cases + show your reasoning
-Pull in the relevant **`knowledge/domain/`** knowledge for the story's area (application-overview, business-rules, glossary, test-data) and let it shape the cases — e.g. a business rule like "sub-nav lists sections in document order" justifies an *order* edge; "affordance on hover" justifies a *not-at-rest* negative. Cite the domain rule in your reasoning where it drives a case.
+Pull in the relevant **`knowledge/domain/`** knowledge for the story's area (application-overview, business-rules, glossary, test-data) and let it shape the cases. Where a business rule or domain fact drives a case, cite it in your reasoning.
 
 Apply `knowledge/testing-standards.md` exactly:
 - 1.0×–1.7× ACs in total volume.
@@ -44,8 +44,7 @@ Apply `knowledge/testing-standards.md` exactly:
 - **Negative** only for security-sensitive ACs; **edge** only for input-validation/boundary ACs; skip extras for simple display/navigation ACs.
 - Each test case carries: `id`, `tracesTo` (mandatory), `type`, `priority`, `preconditions`, ordered `steps` of `{action, expected}`; every `expected` **observable** (no "works"/"loads"/"looks right").
 
-**Narrate the derivation per AC**, e.g.:
-> AC-1 (display AC) → TC-001 positive (items present) + TC-002 edge (order). No negative — not security/validation.
+**Narrate the derivation per AC** so the reasoning is visible — state, for each AC, how many cases and of which types, and why (grounded in the standards + domain rules). Keep it concise.
 
 ### Step 3 — Write the artifact (REQUIRED)
 Write `examples/<story>/test-cases.md` now — this is the review surface. Format: **one section per test case** with a metadata line (`TC-id · ADO id · AC · type · priority`), the title, and a **steps table** (`# | Action | Expected`), one row per step. Also write/refresh `coverage-matrix.md` (AC → cases + the four rubric scores). Report the paths and a short narrated summary, and tell the operator to review `test-cases.md`. See `examples/reinvention-services-nav/` for the exact shape.

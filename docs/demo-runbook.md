@@ -47,7 +47,7 @@ Use the test-automation-orchestrator-agent for US200
 Watch it:
 1. **State gate (automatic).** It confirms the story is Closed and **proceeds automatically** — no stop. *(Optional wow: first point it at an in-progress story and show it refuse.)*
 2. **Pull cases (automatic).** It loads the 5 existing test cases and continues.
-3. **SPEC before code.** `test-script-agent` opens the **live** Accenture page and discovers the ground truth — the nav selectors, the click-to-scroll section targets (and that the URL hash does *not* change), and the hover-underline mechanism (`::after` bar) — then writes `src/tests/reinventionServices/US200_reinventionServicesNav.spec.md`. **First human gate: SPEC review.**
+3. **SPEC before code.** `test-script-agent` opens the **live** Accenture page and discovers the ground truth — the real selectors and interaction mechanics each test case needs — then writes `src/tests/reinventionServices/US200_reinventionServicesNav.spec.md`. **First human gate: SPEC review.**
 
 > **Talking point:** "It didn't stop to ask permission for the mechanical check — a Closed story just flows into automation. It inspected the live app first, wrote the automation spec, and is waiting for sign-off before writing a line of test code."
 

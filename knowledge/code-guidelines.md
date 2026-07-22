@@ -6,11 +6,11 @@ Conventions for the Playwright / TypeScript automation. Agents that generate cod
 
 | Thing | Convention | Example |
 |-------|-----------|---------|
-| Spec file | `US{id}_{camelCaseStory}.spec.ts` | `US200_reinventionServicesNav.spec.ts` |
-| Automation SPEC | `US{id}_{camelCaseStory}.spec.md` (beside the test) | `US200_reinventionServicesNav.spec.md` |
-| POM class | `PascalCase` + `Page` | `ReinventionServicesPage` |
-| Test name | `'{adoTcId} - AC{n} - <condition>'` | `'20003 - AC2 - clicking each nav item scrolls to its section'` |
-| Feature folder | `camelCase` | `reinventionServices` |
+| Spec file | `US{id}_{camelCaseStory}.spec.ts` | `US123_userLogin.spec.ts` |
+| Automation SPEC | `US{id}_{camelCaseStory}.spec.md` (beside the test) | `US123_userLogin.spec.md` |
+| POM class | `PascalCase` + `Page` | `LoginPage` |
+| Test name | `'{adoTcId} - AC{n} - <condition>'` | `'10001 - AC1 - user reaches the dashboard after valid login'` |
+| Feature folder | `camelCase` | `userLogin` |
 
 ## Page Object Model
 
@@ -29,10 +29,10 @@ npm run check:locators   # fails the build if any spec constructs a locator dire
 
 ```typescript
 // ✗ raw locator in the spec
-await expect(page.getByRole('link', { name: 'Reinvention Partners' })).toBeVisible();
+await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible();
 
 // ✓ via the POM
-await expect(rsp.navLink('Reinvention Partners')).toBeVisible();
+await expect(loginPage.signInButton).toBeVisible();
 ```
 
 ### Tests in ascending TC order (enforced)
@@ -47,19 +47,21 @@ npm run check:order    # just the ordering check
 ```typescript
 import { Page, Locator } from '@playwright/test';
 
-export class ReinventionServicesPage {
-  readonly nav: Locator;
+export class LoginPage {
+  readonly signInButton: Locator;
 
   constructor(readonly page: Page) {
-    this.nav = page.getByRole('navigation');
+    this.signInButton = page.getByRole('button', { name: /sign in/i });
   }
 
   async navigate() {
-    await this.page.goto('/ca-en/about/reinvention-services');
+    await this.page.goto('/login');
   }
 
-  navLink(name: string): Locator {
-    return this.nav.getByRole('link', { name });
+  async signIn(username: string, password: string) {
+    await this.page.getByLabel('Username').fill(username);
+    await this.page.getByLabel('Password').fill(password);
+    await this.signInButton.click();
   }
 }
 ```
@@ -70,23 +72,13 @@ export class ReinventionServicesPage {
 - Rely on auto-waiting; call actions/assertions directly.
 - Use web-first assertions: `expect(locator).toBeVisible()`, `.toHaveText()`, `.toHaveCSS()`.
 - Set `baseURL` in `playwright.config.ts`; use relative paths in `goto()`.
-- For hover/visual state: `await locator.hover()` then assert with `toHaveCSS` on the **actual observed** property (verify during investigation — underline may be `text-decoration-line`, `border-bottom`, or a `::after` pseudo-element).
+- For hover/visual state: `await locator.hover()`, then assert on the property/value you **captured during live investigation** — don't assume the mechanism.
 
 **Don't**
 - `page.waitForTimeout()` / `sleep` — remove them; they mask real waits.
 - Raw `.isVisible()` boolean checks in place of `expect().toBeVisible()`.
 - Hardcode absolute URLs — use `baseURL` + relative path.
 - Assert CSS values you guessed — capture the real value during the investigate step.
-
-## Assertions cheat-sheet
-
-```typescript
-await expect(page.getByRole('navigation')).toBeVisible();
-await expect(link).toHaveText('Reinvention Partners');
-await expect(link).toHaveCSS('text-decoration-line', 'underline');   // after hover()
-await expect(page).toHaveURL(/reinvention-services/);
-await expect(nav.getByRole('link')).toHaveCount(5);
-```
 
 ## Traceability in code
 
