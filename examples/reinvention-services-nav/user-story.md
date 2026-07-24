@@ -36,3 +36,8 @@ As a visitor to the Reinvention Services page, I want a persistent top navigatio
 - **Given** I am on the Reinvention Services page
 - **When** I hover the pointer over any top-nav item
 - **Then** that item's text becomes underlined (and is **not** underlined by default)
+
+### AC-4 — Hover changes text colour
+- **Given** I am on the Reinvention Services page
+- **When** I hover the pointer over any top-nav item
+- **Then** that item's text colour changes from its default to the brand accent colour
